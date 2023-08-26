@@ -1,28 +1,59 @@
-import React from 'react';
+"use client"
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 const OrdersPage = () => {
-  const orders = [
-    { id: 1, orderNumber: 'ORD12345', totalAmount: 150.00, status: 'Shipped' },
-    { id: 2, orderNumber: 'ORD67890', totalAmount: 99.99, status: 'Processing' },
-    { id: 3, orderNumber: 'ORD24680', totalAmount: 75.50, status: 'Delivered' },
-    // Add more orders as needed
-  ];
+  const getOrder = async () => {
+    try {
+      const cacheBuster = Date.now();
+      let data = await fetch(`http://localhost:3000/api/orders?cacheBuster=${cacheBuster}`, {
+        method: 'GET',
+      });
+      let dataArray = await data.json();
+      if (dataArray.success) {
+        return dataArray.result;
+      } else {
+        return []
+      }
+    } catch (error) {
+      console.log('Error fetching orders:', error);
+      return [];
+    }
+  };
+
+  const [order, setOrder] = useState([]);
+
+  useEffect(() => {
+    getOrder().then((result) => {
+      setOrder(result);
+    });
+  }, [])
 
   return (
-    <div>
-      <h1>Orders Page</h1>
-      {/* <ul>
-        {orders.map((order) => (
-          <li key={order.id}>
-            <Link href={`/order/${order.id}`}>
-              <a>
-                Order: {order.orderNumber} - Total: ${order.totalAmount.toFixed(2)} - Status: {order.status}
-              </a>
-            </Link>
-          </li>
-        ))}
-      </ul> */}
+    <div className="flex justify-center space-x-10 mt-5 w-full">
+      <div className="max-w-md p-4 bg-white shadow-lg rounded-lg overflow-scroll">
+        <h1 className="text-2xl font-bold mb-4">Orders</h1>
+        <table className="w-full">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Paid</th>
+              <th>Recipient</th>
+              <th>Product</th>
+            </tr>
+          </thead>
+          <tbody>
+            {order.map((item) => (
+              <tr key={item._id}>
+                <td>{item.date}</td>
+                <td>{item.paid}</td>
+                <td>{item.recipient}</td>
+                <td>{item.products}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

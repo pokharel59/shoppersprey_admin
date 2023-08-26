@@ -16,28 +16,15 @@ export async function GET() {
   return NextResponse.json({ result: data, success:true });
 }
 
-export default async function handler(request, response) {
-  if (request.method !== 'POST') {
-    return NextResponse.error(405, 'Method Not Allowed');
-  }
-
+export async function POST(request) {
+  const payload = await request.json();
   try {
     await mongoose.connect(connectionStr);
-    const payload = JSON.parse(request.body);
-    const imageBuffer = Buffer.from(payload.image.replace(/^data:image\/\w+;base64,/, ''), 'base64');
-
-    const product = new Product({
-      name: payload.name,
-      price: payload.price,
-      description: payload.description,
-      category: payload.category,
-      image: imageBuffer,
-    });
-
+    const product = new Product(payload);
     const result = await product.save();
     return response.status(200).json({ result, success: true });
   } catch (error) {
     console.error('Error saving product:', error);
     return response.status(500).json({ success: false });
   }
-}
+  }
