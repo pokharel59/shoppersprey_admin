@@ -23,7 +23,7 @@ const page = (props) => {
         setDescription(result.description);
         setCategory(result.category);
     }else{
-      console.product("Data could not fetched")
+      console.log("Data could not fetched")
     }
   }
 

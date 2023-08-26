@@ -3,6 +3,9 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 const OrdersPage = () => {
+
+  const [isLoading, setIsLoading] = useState(true);
+
   const getOrder = async () => {
     try {
       const cacheBuster = Date.now();
@@ -26,34 +29,43 @@ const OrdersPage = () => {
   useEffect(() => {
     getOrder().then((result) => {
       setOrder(result);
+      setIsLoading(false);
     });
   }, [])
 
   return (
-    <div className="flex justify-center space-x-10 mt-5 w-full">
-      <div className="max-w-md p-4 bg-white shadow-lg rounded-lg overflow-scroll">
-        <h1 className="text-2xl font-bold mb-4">Orders</h1>
-        <table className="w-full">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Paid</th>
-              <th>Recipient</th>
-              <th>Product</th>
-            </tr>
-          </thead>
-          <tbody>
-            {order.map((item) => (
-              <tr key={item._id}>
-                <td>{item.date}</td>
-                <td>{item.paid}</td>
-                <td>{item.recipient}</td>
-                <td>{item.products}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <div className="flex flex-col items-center mt-4">
+      <div className="flex items-center mb-4">
+        <h1 className="text-3xl font-bold text-center mb-4">Orders</h1>
       </div>
+      {isLoading ? (
+        <div className="flex items-center justify-center w-full h-32">
+          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-blue-500 border-b-2"></div>
+        </div>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="mx-auto min-w-full border-collapse">
+            <thead>
+              <tr className="border-t">
+                <th className="border p-3 font-semibold text-left">Date</th>
+                <th className="border p-3 font-semibold text-left">Paid</th>
+                <th className="border p-3 font-semibold text-left">Recipient</th>
+                <th className="border p-3 font-semibold text-left">Product</th>
+              </tr>
+            </thead>
+            <tbody>
+              {order.map((item) => (
+                <tr key={item._id} className="border-t">
+                  <td className="border p-3">{item.date}</td>
+                  <td className="border p-3">{item.paid}</td>
+                  <td className="border p-3">{item.recipient}</td>
+                  <td className="border p-3">{item.products}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };
