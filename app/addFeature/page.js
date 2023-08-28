@@ -4,9 +4,9 @@ import React, { useState, useEffect } from 'react';
 const Feature = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-//   const [image, setImage] = useState('');
+  //   const [image, setImage] = useState('');
 
-useEffect(() => {
+  useEffect(() => {
     getFeature();
   }, []);
 
@@ -49,9 +49,12 @@ useEffect(() => {
   };
 
   return (
-    <div className="flex flex-col items-center mt-4">
-      <h1>Add a New Feature</h1>
-        <div>
+    <div className="flex flex-col items-center mt-2">
+      <div className="flex items-center mb-4">
+        <h1 className="text-2xl font-bold ml-0">Add a New Feature</h1>
+      </div>
+      <div className="max-w-6xl p-bg-white rounded-lg overflow-x-auto flex justify-between">
+        <div className="flex flex-col">
           <label htmlFor="title">Title:</label>
           <input
             type="text"
@@ -61,7 +64,7 @@ useEffect(() => {
             required
           />
         </div>
-        <div>
+        <div className="flex flex-col">
           <label htmlFor="description">Description:</label>
           <textarea
             id="description"
@@ -70,7 +73,7 @@ useEffect(() => {
             required
           />
         </div>
-        <div>
+        <div className="flex flex-col">
           <label htmlFor="image">Image URL:</label>
           <input
             type="text"
@@ -80,7 +83,16 @@ useEffect(() => {
             required
           />
         </div>
-        <button type="submit" onClick={updateFeatures}>Submit</button>
+        <div className="flex flex-col">
+          <button
+            type="submit"
+            onClick={updateFeatures}
+            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
