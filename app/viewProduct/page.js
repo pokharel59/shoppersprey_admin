@@ -40,9 +40,9 @@ const ProductPage = () => {
 
   return (
     <div className="flex flex-col items-center mt-2">
-              <div className="flex items-center mb-4">
-          <h1 className="text-2xl font-bold ml-0">Products</h1>
-        </div>
+      <div className="flex items-center mb-4">
+        <h1 className="text-2xl font-bold ml-0">Products</h1>
+      </div>
 
       {isLoading ? (
         <div className="flex items-center justify-center w-full h-32">

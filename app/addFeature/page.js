@@ -1,5 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 const Feature = () => {
   const [title, setTitle] = useState('');
@@ -49,48 +50,52 @@ const Feature = () => {
   };
 
   return (
-    <div className="flex flex-col items-center mt-2">
-      <div className="flex items-center mb-4">
+    <div className="flex flex-col items-center mt-12">
+      <div className="flex items-center mb-0">
         <h1 className="text-2xl font-bold ml-0">Add a New Feature</h1>
       </div>
-      <div className="max-w-6xl p-bg-white rounded-lg overflow-x-auto flex justify-between">
-        <div className="flex flex-col">
-          <label htmlFor="title">Title:</label>
+      <div className="bg-white p-6 rounded-md max-w-md w-full">
+        <div className="mb-4">
+          <label htmlFor="title" className="text-lg font-semibold mb-1">Title:</label>
           <input
             type="text"
             id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
+            className="w-full border rounded-md py-2 px-3 mt-1"
           />
         </div>
-        <div className="flex flex-col">
-          <label htmlFor="description">Description:</label>
+        <div className="mb-4">
+          <label htmlFor="description" className="text-lg font-semibold mb-1">Description:</label>
           <textarea
             id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
+            className="w-full border rounded-md py-2 px-3 mt-1"
           />
         </div>
-        <div className="flex flex-col">
-          <label htmlFor="image">Image URL:</label>
+        <div className="mb-4">
+          <label htmlFor="image" className="text-lg font-semibold mb-1">Image URL:</label>
           <input
             type="text"
             id="image"
             // value={image}
             // onChange={handleImageChange}
             required
+            className="w-full border rounded-md py-2 px-3 mt-1"
           />
         </div>
-        <div className="flex flex-col">
+        <div className="flex items-center justify-between">
           <button
             type="submit"
             onClick={updateFeatures}
-            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md"
           >
             Submit
           </button>
+          <Link href="/about" className="bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded-md">Back</Link>
         </div>
       </div>
     </div>
