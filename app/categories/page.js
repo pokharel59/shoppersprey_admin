@@ -8,21 +8,12 @@ const CategoryAddingPage = () => {
     const [categoryList, setCategoryList] = useState([]);
 
     const handleAddCategory = () => {
-        // Implement your add category logic here
-        // This function will update the categoryList state
-    };
-
-    const handleAddProperty = () => {
-        // Implement your add property logic here
-        // This function will update the properties for the current category
     };
 
     const handleEditCategory = (index) => {
-        // Implement your edit category logic here
     };
 
     const handleDeleteCategory = (index) => {
-        // Implement your delete category logic here
     };
 
     return (
