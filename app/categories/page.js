@@ -1,103 +1,115 @@
 "use client"
 import React, { useState } from 'react';
 
-const Categories = () => {
-    const [categories, setCategories] = useState([]);
-    const [newCategory, setNewCategory] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState(null);
+const CategoryAddingPage = () => {
+    const [categoryName, setCategoryName] = useState('');
+    const [parentCategory, setParentCategory] = useState('');
+    const [property, setProperty] = useState('');
+    const [categoryList, setCategoryList] = useState([]);
 
     const handleAddCategory = () => {
-        if (newCategory.trim() !== '') {
-            setCategories([...categories, { name: newCategory }]);
-            setNewCategory('');
-        }
+        // Implement your add category logic here
+        // This function will update the categoryList state
+    };
+
+    const handleAddProperty = () => {
+        // Implement your add property logic here
+        // This function will update the properties for the current category
     };
 
     const handleEditCategory = (index) => {
-        setSelectedCategory(index);
-        setNewCategory(categories[index].name);
-    };
-
-    const handleUpdateCategory = () => {
-        if (newCategory.trim() !== '' && selectedCategory !== null) {
-            const updatedCategories = [...categories];
-            updatedCategories[selectedCategory].name = newCategory;
-            setCategories(updatedCategories);
-            setSelectedCategory(null);
-            setNewCategory('');
-        }
+        // Implement your edit category logic here
     };
 
     const handleDeleteCategory = (index) => {
-        const updatedCategories = categories.filter((_, i) => i !== index);
-        setCategories(updatedCategories);
+        // Implement your delete category logic here
     };
 
     return (
-        <div className="flex flex-col items-center mt-12">
-            <div className="flex items-center mb-0">
-                <h1 className="text-2xl font-bold ml-0">Categories</h1>
-            </div>
-            <div lassName="bg-white p-6 rounded-md max-w-md w-full">
-                <div className="max-w-6xl p- bg-white rounded-lg overflow-x-auto flex justify-between">
-                    <input
-                        type="text"
-                        placeholder="New category"
-                        className="px-4 py-2 border rounded-md"
-                        value={newCategory}
-                        onChange={(e) => setNewCategory(e.target.value)}
-                    />
-                    {selectedCategory === null ? (
-                        <button
-                            onClick={handleAddCategory}
-                            className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-                        >
-                            Add
-                        </button>
-                    ) : (
-                        <div className="mt-2">
-                            <button
-                                onClick={handleUpdateCategory}
-                                className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
-                            >
-                                Update
-                            </button>
-                            <button
-                                onClick={() => setSelectedCategory(null)}
-                                className="ml-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
-                            >
-                                Cancel
-                            </button>
-                        </div>
-                    )}
-                </div>
+        <div className="items-center mt-2">
+            <h1 className="text-2xl font-bold mb-4">Add New Category</h1>
 
-                {/* Display Categories */}
-                <ul>
-                    {categories.map((category, index) => (
-                        <li key={index} className="flex items-center justify-between mb-2">
-                            <span>{category.name}</span>
-                            <div>
-                                <button
-                                    onClick={() => handleEditCategory(index)}
-                                    className="mr-2 px-2 py-1 text-blue-500 hover:text-blue-600"
-                                >
-                                    Edit
-                                </button>
-                                <button
-                                    onClick={() => handleDeleteCategory(index)}
-                                    className="px-2 py-1 text-red-500 hover:text-red-600"
-                                >
-                                    Delete
-                                </button>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
+            {/* Add Category Form */}
+            <div className="bg-white rounded-md mb-8">
+                <div className="flex justify-between gap-5">
+                    <div className="flex flex-col">
+                        <label className="block font-semibold mb-2">Category Name:</label>
+                        <input
+                            type="text"
+                            className="border rounded-md py-2 px-3 w-full mb-4"
+                            value={categoryName}
+                            onChange={(e) => setCategoryName(e.target.value)}
+                        />
+                    </div>
+
+                    <div className="flex flex-col">
+                        <label className="block font-semibold mb-2">Parent Category:</label>
+                        <input
+                            type="text"
+                            className="border rounded-md py-2 px-3 w-full mb-4"
+                            value={parentCategory}
+                            onChange={(e) => setParentCategory(e.target.value)}
+                        />
+                    </div>
+                </div>
+            </div>
+            <div className="flex flex-col">
+            <label className="block font-semibold mb-2">Property:</label>
+                <button
+                    className="border rounded-md py-2 px-3 mb-4"
+                >
+                    Add property
+                </button>
+                        </div>
+                <button
+                    onClick={handleAddCategory}
+                    className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md ml-4"
+                >
+                    Save
+                </button>
+
+
+
+            {/* Display Category Table */}
+            <div className="max-w-6xl p- bg-white rounded-lg overflow-x-auto flex justify-between">
+                <table className="w-full border-collapse">
+                    <thead>
+                        <tr>
+                            <th className="border p-2 font-semibold">Category Name</th>
+                            <th className="border p-2 font-semibold">Parent Category</th>
+                            <th className="border p-2 font-semibold">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {categoryList.map((category, index) => (
+                            <tr key={index}>
+                                <td className="border p-2">{category.name}</td>
+                                <td className="border p-2">{category.parent}</td>
+                                <td className="border p-2">
+
+                                    <div className="flex justify-between">
+                                        <button
+                                            onClick={() => handleEditCategory(index)}
+                                            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded-md mr-2"
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            onClick={() => handleDeleteCategory(index)}
+                                            className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded-md"
+                                        >
+                                            Delete
+                                        </button>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         </div>
     );
 };
 
-export default Categories;
-
+export default CategoryAddingPage;
