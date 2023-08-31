@@ -7,41 +7,59 @@ const page = () => {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
+  const [quantity, setQuantity] = useState(1);
 
   const viewProduct = async () => {
-    try {
-      console.log(name, price, description, category);
+    if (name === "", price === "", description === "", category === "") {
+      alert("Field must not be empty");
+    } else {
+      try {
+        console.log(name, price, description, category, quantity);
 
-      const requestOptions = {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: name,
-          price: price,
-          description: description,
-          category: category,
-        }),
-      };
+        const requestOptions = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            name: name,
+            price: price,
+            description: description,
+            category: category,
+            quantity: parseInt(quantity)
+          }),
+        };
 
-      const response = await fetch("http://localhost:3000/api/products", requestOptions);
-      console.log('API Response:', response);
+        const response = await fetch("http://localhost:3000/api/products", requestOptions);
+        console.log('API Response:', response);
 
-      const result = await response.json();
-      if (result.success) {
-        alert("New product added");
-        setName('');
-        setPrice('');
-        setDescription('');
-        setCategory('');
-      } else {
-        alert("Failed to add product:", result);
+        const result = await response.json();
+        if (result.success) {
+          alert("New product added");
+          setName('');
+          setPrice('');
+          setDescription('');
+          setCategory('');
+          setQuantity(1);
+        } else {
+          alert("Failed to add product:", result);
+        }
+      } catch (error) {
+        console.error('Error adding products:', error);
       }
-    } catch (error) {
-      console.error('Error adding products:', error);
     }
+
   };
+  const handleIncreaseQuantity = () => {
+    setQuantity(quantity + 1);
+  };
+
+  const handleDecreaseQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1)
+    };
+  };
+
   return (
     <div className="flex flex-col items-center mt-12">
       <div className="flex items-center mb-0">
@@ -94,6 +112,30 @@ const page = () => {
             <option value="Lower">Lower</option>
           </select>
         </div>
+        <div className='mb-4'>
+          <label htmlFor='quantity' className="block text-lg font-semibold mb-1">Quantity:</label>
+          <div className="flex border border-gray-300 rounded mb-4">
+            <button
+              className="px-2 py-1"
+              onClick={handleDecreaseQuantity}
+            >
+              -
+            </button>
+            <input
+              className="px-3"
+              type="number"
+              value={quantity}
+              onChange={(e) => setQuantity(parseInt(e.target.value))}
+            />
+            <button
+              className="px-2 py-1"
+              onClick={handleIncreaseQuantity}
+            >
+              +
+            </button>
+          </div>
+        </div>
+
         <div className="flex items-center justify-between">
           <button
             type="button"
