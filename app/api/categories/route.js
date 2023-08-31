@@ -1,15 +1,20 @@
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 import {connectionStr } from "app/libs/mongodb";
-import { Category } from "@mui/icons-material";
+import { Categories } from "@/app/libs/models/category";
 
 export async function POST(request){
     const payload = request.json();
-    await mongoose.connection(connectionStr);
-    let category = new Category(payload);
-    const result = await category.save();
-    return NextResponse.json({result, success:true});
-}
+    try {
+        await mongoose.connect(connectionStr);
+        let category = new Categories(payload);
+        const result = await category.save();
+        return response.status(200).json({result, success: false });
+    } catch (error) {
+        console.error('Error saving category:', error);
+        return response.status(500).json({ success: false });
+    }
+};
 
 export async function GET(){
     let data = []

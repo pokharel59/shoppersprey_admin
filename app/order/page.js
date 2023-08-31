@@ -1,6 +1,8 @@
 "use client"
 import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faPlus } from '@fortawesome/free-solid-svg-icons';
+import DeleteProduct from 'app/deleteProduct';
 
 const OrdersPage = () => {
 
@@ -35,15 +37,13 @@ const OrdersPage = () => {
 
   return (
     <div className="flex flex-col items-center mt-4">
-      <div className="flex items-center mb-4">
-        <h1 className="text-3xl font-bold text-center mb-4">Orders</h1>
-      </div>
       {isLoading ? (
         <div className="flex items-center justify-center w-full h-32">
           <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-blue-500 border-b-2"></div>
         </div>
       ) : (
         <div className="overflow-x-auto">
+                  <h1 className="text-xl font-semibold mb-4">Orders</h1>
           <table className="mx-auto min-w-full border-collapse">
             <thead>
               <tr className="border-t">
@@ -51,6 +51,11 @@ const OrdersPage = () => {
                 <th className="border p-3 font-semibold text-left">Paid</th>
                 <th className="border p-3 font-semibold text-left">Recipient</th>
                 <th className="border p-3 font-semibold text-left">Product</th>
+                <th className="border p-3 font-semibold text-left">Order ID</th>
+                <th className="border p-3 font-semibold text-left">Quantity</th>
+                <th className="border p-3 font-semibold text-left">Price</th>
+                <th className="border p-3 font-semibold text-left">Status</th>
+                <th className="border p-3 font-semibold text-left">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -60,6 +65,18 @@ const OrdersPage = () => {
                   <td className="border p-3">{item.paid}</td>
                   <td className="border p-3">{item.recipient}</td>
                   <td className="border p-3">{item.products}</td>
+                  <td className="border p-3"></td>
+                  <td className="border p-3"></td>
+                  <td className="border p-3"></td>
+                  <td className="border p-3"></td>
+                  <td className="border px-4 py-2">
+                  <div className="flex items-center space-x-2">
+                          <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded-md">
+                            <FontAwesomeIcon icon={faEdit} className="mr-1" />
+                            Edit
+                          </button>
+                      </div>
+                  </td>
                 </tr>
               ))}
             </tbody>

@@ -3,11 +3,34 @@ import React, { useState } from 'react';
 
 const CategoryAddingPage = () => {
     const [categoryName, setCategoryName] = useState('');
-    const [parentCategory, setParentCategory] = useState('');
-    const [property, setProperty] = useState('');
-    const [categoryList, setCategoryList] = useState([]);
+    const[parentCategory, setParentCategory] = useState('');
 
-    const handleAddCategory = () => {
+    const handleAddCategory = async () => {
+        try {
+            const requestOptions = {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    categoryName: categoryName,
+                }),
+            };
+
+            const response = await fetch("http://localhost:3000/api/categories", requestOptions);
+            console.log('API Response', response);
+
+            const result = await response.json();
+            if(result.success){
+                alert("New category added");
+                setCategoryName("");
+            }else{
+                alert("Failed to add the categor", error);
+            }
+
+        } catch (error) {
+            console.log('Error adding category:')
+        }
     };
 
     const handleEditCategory = (index) => {
@@ -72,10 +95,10 @@ const CategoryAddingPage = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {categoryList.map((category, index) => (
-                            <tr key={index}>
-                                <td className="border p-2">{category.name}</td>
-                                <td className="border p-2">{category.parent}</td>
+                        {/* {categoryList.map((category, index) => ( */}
+                            <tr >
+                                <td className="border p-2"></td>
+                                <td className="border p-2"></td>
                                 <td className="border p-2">
 
                                     <div className="flex justify-between">
@@ -95,7 +118,7 @@ const CategoryAddingPage = () => {
                                     </div>
                                 </td>
                             </tr>
-                        ))}
+                        {/* ))} */}
                     </tbody>
                 </table>
             </div>

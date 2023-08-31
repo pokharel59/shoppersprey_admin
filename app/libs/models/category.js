@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
 const categoryModel = new mongoose.Schema({
-    name: String,
+    categoryName: String,
 });
-export const Category =mongoose.models.categories || mongoose.model("categories", categoryModel);
+export const Categories =mongoose.models.categories || mongoose.model("categories", categoryModel);

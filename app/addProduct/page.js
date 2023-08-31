@@ -25,7 +25,6 @@ const page = () => {
         }),
       };
 
-      const cacheBuster = Date.now();
       const response = await fetch("http://localhost:3000/api/products", requestOptions);
       console.log('API Response:', response);
 
