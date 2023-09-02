@@ -10,7 +10,7 @@ const page = () => {
   const [quantity, setQuantity] = useState(1);
 
   const viewProduct = async () => {
-    if (name === "", price === "", description === "", category === "") {
+    if (name === "", price === "", description === "", category === "", quantity === null) {
       alert("Field must not be empty");
     } else {
       try {

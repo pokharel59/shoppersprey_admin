@@ -17,7 +17,6 @@ const DeleteProduct = (props) => {
       const result = await response.json();
 
       if (result.success) {
-        alert('Product deleted');
         props.refreshData();
       } else {
         console.error('Failed to delete product:', result);

@@ -35,6 +35,10 @@ const OrdersPage = () => {
     });
   }, [])
 
+  const handleTotalPrice = (item) => {
+    return item.price * item.quantity;
+  };
+
   return (
     <div className="flex flex-col items-center mt-4">
       {isLoading ? (
@@ -43,18 +47,19 @@ const OrdersPage = () => {
         </div>
       ) : (
         <div className="overflow-x-auto">
-                  <h1 className="text-xl font-semibold mb-4">Orders</h1>
+          <h1 className="text-xl font-semibold mb-4">Orders</h1>
           <table className="mx-auto min-w-full border-collapse">
             <thead>
               <tr className="border-t">
                 <th className="border p-3 font-semibold text-left">Date</th>
+                <th className="border p-3 font-semibold text-left">Order ID</th>
                 <th className="border p-3 font-semibold text-left">Paid</th>
                 <th className="border p-3 font-semibold text-left">Recipient</th>
                 <th className="border p-3 font-semibold text-left">Product</th>
-                <th className="border p-3 font-semibold text-left">Order ID</th>
                 <th className="border p-3 font-semibold text-left">Quantity</th>
                 <th className="border p-3 font-semibold text-left">Price</th>
                 <th className="border p-3 font-semibold text-left">Status</th>
+                <th className="border p-3 font-semibold text-left">Total</th>
                 <th className="border p-3 font-semibold text-left">Action</th>
               </tr>
             </thead>
@@ -62,20 +67,21 @@ const OrdersPage = () => {
               {order.map((item) => (
                 <tr key={item._id} className="border-t">
                   <td className="border p-3">{item.date}</td>
+                  <td className="border p-3">{item._id}</td>
                   <td className="border p-3">{item.paid}</td>
                   <td className="border p-3">{item.recipient}</td>
-                  <td className="border p-3">{item.products}</td>
-                  <td className="border p-3"></td>
-                  <td className="border p-3"></td>
-                  <td className="border p-3"></td>
-                  <td className="border p-3"></td>
+                  <td className="border p-3">{item.name}</td>
+                  <td className="border p-3">{item.quantity}</td>
+                  <td className="border p-3">{item.price}</td>
+                  <td className="border p-3">{item.orderStatus}</td>
+                  <td className="border p-3">{handleTotalPrice(item)}</td>
                   <td className="border px-4 py-2">
-                  <div className="flex items-center space-x-2">
-                          <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded-md">
-                            <FontAwesomeIcon icon={faEdit} className="mr-1" />
-                            Edit
-                          </button>
-                      </div>
+                    <div className="flex items-center space-x-2">
+                      <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded-md">
+                        <FontAwesomeIcon icon={faEdit} className="mr-1" />
+                        Edit
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

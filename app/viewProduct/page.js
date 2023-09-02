@@ -56,7 +56,8 @@ const ProductPage = () => {
                   <th className="border px-4 py-2">Price</th>
                   <th className="border px-4 py-2">Description</th>
                   <th className="border px-4 py-2">Category</th>
-                  <th className="border px-4 py-2">Image</th>
+                  <th className="border px-4 py-2">Quantity</th>
+                  <th className="border px-4 py-2">Image</th> 
                   <th className="border px-4 py-2">Actions</th>
                 </tr>
               </thead>
@@ -67,6 +68,7 @@ const ProductPage = () => {
                     <td className="border px-4 py-2">${item.price}</td>
                     <td className="border px-4 py-2">{item.description}</td>
                     <td className="border px-4 py-2">{item.category}</td>
+                    <td className="border px-4 py-2">{item.quantity}</td>
                     <td className="border px-4 py-2">
                       <img
                         src="https://via.placeholder.com/100"
