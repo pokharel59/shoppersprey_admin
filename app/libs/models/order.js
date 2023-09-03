@@ -7,6 +7,7 @@ const orderSchema = new mongoose.Schema({
   },
   paid: { type: String, required: true },
   name: { type: String, required: true },
+  recipient: { type: String, required: true },
   _id: {type: String, required: true},
   price: { type: String, required: true },
   quantity: { type: Number, reqired: true },
