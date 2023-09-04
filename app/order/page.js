@@ -1,11 +1,10 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faPlus } from '@fortawesome/free-solid-svg-icons';
-import DeleteProduct from 'app/deleteProduct';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import DashboardOverview from '../page';
 
 const OrdersPage = () => {
-
   const [isLoading, setIsLoading] = useState(true);
 
   const getOrder = async () => {
@@ -18,7 +17,7 @@ const OrdersPage = () => {
       if (dataArray.success) {
         return dataArray.result;
       } else {
-        return []
+        return [];
       }
     } catch (error) {
       console.log('Error fetching orders:', error);
@@ -33,11 +32,15 @@ const OrdersPage = () => {
       setOrder(result);
       setIsLoading(false);
     });
-  }, [])
+  }, []);
 
   const handleTotalPrice = (item) => {
     return item.price * item.quantity;
   };
+
+  const totalOrders = order.length;
+  const totalPrice = 7000;
+  const totalQuantity = 10;
 
   return (
     <div className="flex flex-col items-center mt-4">
