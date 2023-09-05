@@ -38,7 +38,7 @@ const page = (props) => {
       alert("Product updated")
     }
   }
-
+ 
   return (
     <div className="flex flex-col items-center mt-12">
       <div className="flex items-center mb-0">

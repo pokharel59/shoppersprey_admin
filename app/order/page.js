@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
-import DashboardOverview from '../page';
+import Link from 'next/link';
 
 const OrdersPage = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -37,10 +37,6 @@ const OrdersPage = () => {
   const handleTotalPrice = (item) => {
     return item.price * item.quantity;
   };
-
-  const totalOrders = order.length;
-  const totalPrice = 7000;
-  const totalQuantity = 10;
 
   return (
     <div className="flex flex-col items-center mt-4">
@@ -80,10 +76,12 @@ const OrdersPage = () => {
                   <td className="border p-3">{handleTotalPrice(item)}</td>
                   <td className="border px-4 py-2">
                     <div className="flex items-center space-x-2">
+                      <Link href={`order/${item._id}`}>
                       <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded-md">
                         <FontAwesomeIcon icon={faEdit} className="mr-1" />
                         Edit
                       </button>
+                      </Link>
                     </div>
                   </td>
                 </tr>

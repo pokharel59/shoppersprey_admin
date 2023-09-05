@@ -1,22 +1,23 @@
-"use client"
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ApexCharts from 'react-apexcharts';
 
-const MonthlyOrdersAreaChart = () => {
+const MonthlyOrdersAreaChart = ({ orderData }) => {
+    const [seriesData, setSeriesData] = useState(Array(12).fill(0));
+
     const chartOptions = {
         series: [{
-            name: 'Inflation',
-            data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3, 1.4, 0.8, 0.5, 0.2]
+            name: 'Orders',
+            data: seriesData
         }],
         chart: {
             width: '100%',
             height: 350,
-            type: 'area', // Changed the chart type to "area"
+            type: 'area',
             zoom: {
                 enabled: false
             },
             toolbar: {
-                show: false // Hide the default toolbar
+                show: false
             }
         },
         dataLabels: {
@@ -50,10 +51,18 @@ const MonthlyOrdersAreaChart = () => {
     };
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            // Code that uses the window object, if needed
+        // Calculate the data for the chart based on orderData
+        if (orderData && orderData.length > 0) {
+            const monthlyData = Array(12).fill(0);
+
+            orderData.forEach((order) => {
+                const orderMonth = new Date(order.date).getMonth();
+                monthlyData[orderMonth] += 1; // You can adjust this based on your data
+            });
+
+            setSeriesData(monthlyData);
         }
-    }, []);
+    }, [orderData]);
 
     return (
         <div className="bg-white rounded-lg shadow-lg dark:bg-white">
