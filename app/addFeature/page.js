@@ -1,11 +1,13 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Feature = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  //   const [image, setImage] = useState('');
+  // const [image, setImage] = useState('');
 
   useEffect(() => {
     getFeature();
@@ -39,7 +41,10 @@ const Feature = () => {
       if (data.ok) {
         const result = await data.json();
         if (result.result) {
-          alert("Feature updated");
+          toast("Feature updated", {
+            position: toast.POSITION.TOP_LEFT,
+            autoClose: 3000,
+          });
         }
       } else {
         console.log("Failed to update feature");
@@ -78,14 +83,14 @@ const Feature = () => {
         </div>
         <div className="mb-4">
           <label htmlFor="image" className="text-lg font-semibold mb-1">Image URL:</label>
-          <input
+          {/* <input
             type="text"
             id="image"
-            // value={image}
-            // onChange={handleImageChange}
+            value={image}
+            onChange={(e) => setImage(e.target.value)}
             required
             className="w-full border rounded-md py-2 px-3 mt-1"
-          />
+          /> */}
         </div>
         <div className="flex items-center justify-between">
           <button

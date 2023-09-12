@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const page = () => {
   const [name, setName] = useState("");
@@ -14,8 +16,6 @@ const page = () => {
       alert("Field must not be empty");
     } else {
       try {
-        console.log(name, price, description, category, quantity);
-
         const requestOptions = {
           method: "POST",
           headers: {
@@ -35,14 +35,20 @@ const page = () => {
 
         const result = await response.json();
         if (result.success) {
-          alert("New product added");
+          toast.success("New product added", {
+            position: toast.POSITION.TOP_LEFT,
+            autoClose: 3000,
+          });
           setName('');
           setPrice('');
           setDescription('');
           setCategory('');
           setQuantity(1);
         } else {
-          alert("Failed to add product:", result);
+          toast("Failed to add product:", result, {
+            position: toast.POSITION.TOP_LEFT,
+            autoClose: 3000,
+          });
         }
       } catch (error) {
         console.error('Error adding products:', error);
