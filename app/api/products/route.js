@@ -18,6 +18,7 @@ export async function GET() {
 
 export async function POST(request) {
   const payload = await request.json();
+
   try {
     await mongoose.connect(connectionStr);
     const product = new Product(payload);

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const page = () => {
@@ -10,6 +10,19 @@ const page = () => {
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const viewProduct = async () => {
     if (name === "", price === "", description === "", category === "", quantity === null) {
@@ -26,7 +39,8 @@ const page = () => {
             price: price,
             description: description,
             category: category,
-            quantity: parseInt(quantity)
+            quantity: parseInt(quantity),
+            image: imagePreview,
           }),
         };
 
@@ -140,6 +154,23 @@ const page = () => {
               +
             </button>
           </div>
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="productDetails" className="block text-lg font-semibold mb-1">Image:</label>
+          <input
+            type="file"
+            onChange={handleImageChange}
+            id="productImage"
+            required
+            className="w-full px-4 py-2 border rounded-md"
+          />
+          {imagePreview && (
+            <div className="mb-4">
+              <label htmlFor="imagePreview" className="block text-lg font-semibold mb-1">Image Preview:</label>
+              <img src={imagePreview} alt="Image Preview" className="max-w-xs" />
+            </div>
+          )}
         </div>
 
         <div className="flex items-center justify-between">
