@@ -10,29 +10,41 @@ const page = () => {
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [imageFile, setImageFile] = useState(null);
+  const [imageFile, setImageFile] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   const viewProduct = async () => {
-    if (name === "", price === "", description === "", category === "", quantity === null) {
-      alert("Field must not be empty");
-    } else {
-      try {
+    if (name === "" || price === "" || description === "" || category === "" || quantity === null) {
+      alert("Fields must not be empty");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("file", imageFile);
+      formData.append("upload_preset", "b3ugwz9o");
+      formData.append("cloud_name", "dfc5smckf");
+      formData.append("name", name);
+      formData.append("price", price);
+      formData.append("description", description);
+      formData.append("category", category);
+      formData.append("quantity", quantity);
+
+      const response = await fetch("https://api.cloudinary.com/v1_1/dfc5smckf/image/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+      console.log(data);
+      if (response.ok) {
+        const publicID = data.secure_url;
+
+        // Now, send the product data (including the image URL) to your database API
         const requestOptions = {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             name: name,
@@ -40,36 +52,45 @@ const page = () => {
             description: description,
             category: category,
             quantity: parseInt(quantity),
-            image: imagePreview,
+            image: publicID,
           }),
         };
 
-        const response = await fetch("http://localhost:3000/api/products", requestOptions);
-        console.log('API Response:', response);
+        const dbResponse = await fetch("http://localhost:3000/api/products", requestOptions);
+        const result = await dbResponse.json();
 
-        const result = await response.json();
         if (result.success) {
           toast.success("New product added", {
             position: toast.POSITION.TOP_LEFT,
             autoClose: 3000,
           });
-          setName('');
-          setPrice('');
-          setDescription('');
-          setCategory('');
+
+          // Clear form fields
+          setName("");
+          setPrice("");
+          setDescription("");
+          setCategory("");
           setQuantity(1);
+          setImageFile("");
+          setImagePreview(null);
         } else {
           toast("Failed to add product:", result, {
             position: toast.POSITION.TOP_LEFT,
             autoClose: 3000,
           });
         }
-      } catch (error) {
-        console.error('Error adding products:', error);
+      } else {
+        toast("Failed to upload image to Cloudinary", {
+          position: toast.POSITION.TOP_LEFT,
+          autoClose: 3000,
+        });
       }
+    } catch (error) {
+      console.error("Error adding product:", error);
     }
 
   };
+
   const handleIncreaseQuantity = () => {
     setQuantity(quantity + 1);
   };
@@ -156,13 +177,11 @@ const page = () => {
           </div>
         </div>
 
-        <div className="mb-4">
+        <div className="mb-4 flex">
           <label htmlFor="productDetails" className="block text-lg font-semibold mb-1">Image:</label>
           <input
             type="file"
-            onChange={handleImageChange}
-            id="productImage"
-            required
+            onChange={(e)=>setImageFile(e.target.files[0])}
             className="w-full px-4 py-2 border rounded-md"
           />
           {imagePreview && (

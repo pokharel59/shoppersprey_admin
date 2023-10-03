@@ -71,7 +71,7 @@ const ProductPage = () => {
                     <td className="border px-4 py-2">{item.quantity}</td>
                     <td className="border px-4 py-2">
                       <img
-                        src="https://via.placeholder.com/100"
+                        src={item.image}
                         className="max-w-xs"
                         alt={item.name}
                       />
